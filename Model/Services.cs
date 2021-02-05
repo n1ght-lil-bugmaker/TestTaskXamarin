@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace TestTask.Model
@@ -18,16 +19,17 @@ namespace TestTask.Model
         {
             if(!File.Exists(_filename))
             {
-                GetDataAsync();
+                GetDataAsync().Wait();
             }
         }
-        private static void GetDataAsync()
+        private async static Task<Task> GetDataAsync()
         {
             using (var wc = new WebClient())
             {
-                string res = Encoding.GetEncoding(1251).GetString(wc.DownloadData(_url));
+                string res = Encoding.GetEncoding(1251).GetString(await wc.DownloadDataTaskAsync(_url));
                 File.WriteAllText(_filename, res, Encoding.GetEncoding(1251));
             }
+            return Task.CompletedTask;
         }
 
         public static IEnumerable<Offer> GetOffers()
