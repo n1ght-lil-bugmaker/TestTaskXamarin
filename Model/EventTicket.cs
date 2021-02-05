@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace TestTask.Model
 {
     public class EventTicket : Offer
     {
+        public bool Delivery { get; set; }
         public int LocalDeliveryCost { get; set; }
         public string Name { get; set; }
         public string Place { get; set; }
@@ -17,7 +14,6 @@ namespace TestTask.Model
         public DateTime Date { get; set; }
         public int IsPremiere { get; set; }
         public int IsKids { get; set; }
-        public bool Delivery { get; set; }
 
         public EventTicket(XmlNode node) : base(node)
         {

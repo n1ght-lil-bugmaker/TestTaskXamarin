@@ -1,47 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
-using Newtonsoft.Json;
 
 namespace TestTask.Model
 {
     public static class Services
     { 
-        private static string url = "http://partner.market.yandex.ru/pages/help/YML.xml";
-        private static string filename = Path.Combine(Xamarin.Essentials.FileSystem.AppDataDirectory,
-                                                     "data2.xml");
+        private static string _url = "http://partner.market.yandex.ru/pages/help/YML.xml";
+        private static string _filename = Path.Combine(Xamarin.Essentials.FileSystem.AppDataDirectory,
+                                                     "data.xml");
+                                                     
 
         static Services()
         {
-            if (!File.Exists(filename))
+            if(!File.Exists(_filename))
             {
-                GetData();
+                GetDataAsync();
             }
         }
-        private static void GetData()
+        private static void GetDataAsync()
         {
             using (var wc = new WebClient())
             {
-                var res = Encoding.GetEncoding(1251).GetString(wc.DownloadData(url));
-                Console.Write(res);
-                File.WriteAllText(filename, res, Encoding.GetEncoding(1251));
-                //return await wc.DownloadStringTaskAsync(Url);
-                
+                string res = Encoding.GetEncoding(1251).GetString(wc.DownloadData(_url));
+                File.WriteAllText(_filename, res, Encoding.GetEncoding(1251));
             }
         }
 
         public static IEnumerable<Offer> GetOffers()
         {
+           
             var doc = new XmlDocument();
-            doc.Load(filename);
+            doc.Load(_filename);
 
-            var root = doc.DocumentElement;
+            XmlElement root = doc.DocumentElement;
 
             foreach (XmlNode node in root)
             {
@@ -51,7 +46,6 @@ namespace TestTask.Model
                     {
                         foreach (XmlNode grandchild in child.ChildNodes)
                         {
-                            //yield return grandchild.Attributes.GetNamedItem("id").Value;
                             yield return Offer.GetOfferByNode(grandchild);
                         }
                     }

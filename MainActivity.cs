@@ -17,28 +17,12 @@ namespace TestTask
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
-
-            var listView = FindViewById<ListView>(Resource.Id.listView1);
-            /*var cats = Model.Cat.GetCats().ToList();
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, cats.Select(x => x.Name).ToList());
-            listView.Adapter = adapter;
-
-            listView.ItemClick += (sender, e) =>
-            {
-                var intent = new Intent(this, typeof(FullInfoActivity));
-
-                var cat = cats[e.Position];
-
-                intent.PutExtra("cat", cat.ToString());
-                StartActivity(intent);
-                
-            };*/
-
+            var listView = FindViewById<ListView>(Resource.Id.listView1);    
             var offers = Services.GetOffers().ToList();
             var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, offers.Select(x => x.Id.ToString()).ToList());
+
             listView.Adapter = adapter;
 
             listView.ItemClick += (sender, args) =>

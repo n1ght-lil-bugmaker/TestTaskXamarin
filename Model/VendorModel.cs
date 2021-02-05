@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace TestTask.Model
 {
@@ -17,7 +12,6 @@ namespace TestTask.Model
         public bool ManufacturerWarranty { get; set; }
         public string CountrOfOrigin { get; set; }
         public bool Delivery { get; set; }
-
         public VendorModel(XmlNode node) : base(node)
         {
             LocalDeliveryCost = int.Parse(node["local_delivery_cost"].InnerText);
