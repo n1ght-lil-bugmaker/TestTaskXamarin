@@ -27,7 +27,7 @@ namespace TestTask.Model
             using (var wc = new WebClient())
             {
                 string res = Encoding.GetEncoding(1251).GetString(await wc.DownloadDataTaskAsync(_url));
-                File.WriteAllText(_filename, res, Encoding.GetEncoding(1251));
+                await File.WriteAllTextAsync(_filename, res, Encoding.GetEncoding(1251));
             }
             return Task.CompletedTask;
         }
